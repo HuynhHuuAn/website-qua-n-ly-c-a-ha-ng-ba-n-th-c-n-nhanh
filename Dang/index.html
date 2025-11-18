@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. CẤU HÌNH NỀN ĐỘNG (ANIMATED BACKGROUND) --- */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. THẺ KÍNH (GLASSMORPHISM CARD) --- */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px); /* Làm mờ nền phía sau */
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 60px 80px;
+            text-align: center;
+            color: white;
+            transform-style: preserve-3d; /* Chuẩn bị cho 3D JS */
+            transform: perspective(1000px);
+            transition: transform 0.1s;
+            position: relative;
+        }
+
+        /* Hiệu ứng bóng sáng (Glow) */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            background: linear-gradient(45deg, #ff00cc, #3333ff);
+            z-index: -1;
+            border-radius: 25px;
+            filter: blur(30px);
+            opacity: 0.6;
+        }
+
+        /* --- 3. TYPOGRAPHY & CONTENT --- */
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateZ(50px); /* Đẩy chữ nổi lên 3D */
+        }
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-top: 10px;
+            opacity: 0.9;
+            letter-spacing: 2px;
+            transform: translateZ(30px); /* Đẩy chữ nổi lên nhẹ */
+        }
+
+        .btn {
+            margin-top: 30px;
+            padding: 12px 40px;
+            background: white;
+            color: #333;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            transform: translateZ(40px);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #23d5ab;
+            color: white;
+            box-shadow: 0 0 15px #23d5ab;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="card" id="tiltCard">
+        <h1>HELLO.</h1>
+        <p>Welcome to my home</p>
+        <a href="#" class="btn">Explore</a>
+    </div>
+
+    <script>
+        // --- 4. JAVASCRIPT TẠO HIỆU ỨNG 3D KHI DI CHUỘT ---
+        // (Làm cho thẻ nghiêng theo hướng chuột giống Apple TV)
+        
+        const card = document.getElementById('tiltCard');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 25; // Tính toán độ nghiêng X
+            const y = (window.innerHeight / 2 - e.pageY) / 25; // Tính toán độ nghiêng Y
+
+            // Áp dụng style transform
+            card.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        // Khi chuột rời đi, thẻ quay về vị trí cũ
+        document.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
+        });
+    </script>
+</body>
+</html>
